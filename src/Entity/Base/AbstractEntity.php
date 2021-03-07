@@ -2,13 +2,13 @@
 
 namespace App\Entity\Base;
 
-use App\Entity\Traits\DeletedAtTrait;
+use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class AbstractEntity
 {
-    use DeletedAtTrait,
+    use CreatedAtTrait,
         UpdatedAtTrait;
 
     /**
