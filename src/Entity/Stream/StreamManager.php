@@ -23,11 +23,18 @@ class StreamManager extends AbstractEntity
      */
     protected iterable $rules = [];
 
+    /**
+     * @ORM\ManyToOne(targetEntity=StreamManagement::class, inversedBy="managers")
+     */
+    private StreamManagement $management;
+
     public function __construct(
         Account $account,
+        StreamManagement $management,
         iterable $rules = [],
     ) {
         $this->account = $account;
+        $this->management = $management;
         $this->rules = $rules;
     }
 
@@ -72,6 +79,18 @@ class StreamManager extends AbstractEntity
         if ($this->hasRule($rule)) {
             $this->rules = array_diff($this->rules, [$rule]);
         }
+
+        return $this;
+    }
+
+    public function getManagement(): ?StreamManagement
+    {
+        return $this->management;
+    }
+
+    public function setManagement(StreamManagement $management): self
+    {
+        $this->management = $management;
 
         return $this;
     }
