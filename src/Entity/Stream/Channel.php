@@ -4,13 +4,13 @@ namespace App\Entity\Stream;
 
 use App\Entity\Base\AbstractEntity;
 use App\Entity\User\Settings;
-use App\Repository\Stream\StreamRepository;
+use App\Repository\Stream\ChannelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=StreamRepository::class)
+ * @ORM\Entity(repositoryClass=ChannelRepository::class)
  */
 class Channel extends AbstractEntity
 {

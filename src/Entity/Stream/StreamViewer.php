@@ -4,11 +4,11 @@ namespace App\Entity\Stream;
 
 use App\Entity\Base\AbstractEntity;
 use App\Entity\User\Account;
-use App\Repository\Stream\StreamManagerRepository;
+use App\Repository\Stream\StreamViewerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=StreamManagerRepository::class)
+ * @ORM\Entity(repositoryClass=StreamViewerRepository::class)
  */
 class StreamViewer extends AbstractEntity
 {
