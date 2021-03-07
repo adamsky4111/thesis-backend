@@ -3,6 +3,7 @@
 namespace App\Entity\User;
 
 use App\Entity\Base\AbstractEntity;
+use App\Entity\Stream\Channel;
 use App\Enum\AccountRoleEnum;
 use App\Repository\User\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,6 +40,11 @@ class Account extends AbstractEntity
      */
     protected iterable $roles = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity=Channel::class, mappedBy="account")
+     */
+    private iterable $channels;
+
     public function __construct(User $user)
     {
         $this->setUser($user);
@@ -46,6 +52,7 @@ class Account extends AbstractEntity
         $this->setAccountInformation(new AccountInformation());
         $this->setRoles([AccountRoleEnum::REGULAR_ACCOUNT]);
         $this->settings = new ArrayCollection();
+        $this->channels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +134,36 @@ class Account extends AbstractEntity
     public function clearSettings(): self
     {
         $this->settings = new ArrayCollection();
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Channel[]
+     */
+    public function getChannels(): Collection
+    {
+        return $this->channels;
+    }
+
+    public function addChannel(Channel $channel): self
+    {
+        if (!$this->channels->contains($channel)) {
+            $this->channels[] = $channel;
+            $channel->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChannel(Channel $channel): self
+    {
+        if ($this->channels->removeElement($channel)) {
+            // set the owning side to null (unless already changed)
+            if ($channel->getAccount() === $this) {
+                $channel->setAccount(null);
+            }
+        }
 
         return $this;
     }

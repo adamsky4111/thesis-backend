@@ -3,6 +3,7 @@
 namespace App\Entity\Stream;
 
 use App\Entity\Base\AbstractEntity;
+use App\Entity\User\Account;
 use App\Entity\User\Settings;
 use App\Repository\Stream\ChannelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,10 +40,17 @@ class Channel extends AbstractEntity
      */
     private iterable $streams;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="channels")
+     */
+    private Account $account;
+
     public function __construct(
         Settings $settings,
+        Account $account,
     ) {
         $this->settings = $settings;
+        $this->account = $account;
         $this->followers = new ArrayCollection();
         $this->streams = new ArrayCollection();
     }
@@ -151,6 +159,18 @@ class Channel extends AbstractEntity
                 $stream->setChannel(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?Account $account): self
+    {
+        $this->account = $account;
 
         return $this;
     }
