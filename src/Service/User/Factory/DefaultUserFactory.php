@@ -23,7 +23,8 @@ final class DefaultUserFactory implements UserFactoryInterface
             ->setUsername(strtolower($dto->getUsername()))
             ->setUsernameCanonical($dto->getUsername())
             ->setIsActive(false)
-            ->setPassword($this->encoder->encodePassword($user, $dto->getPlainPassword()));
+            ->setPassword($this->encoder->encodePassword($user, $dto->getPlainPassword()))
+            ->setIsDeleted(false);
         $this->em->persist($user);
 
         $account = new Account($user);
