@@ -3,13 +3,15 @@
 namespace App\Entity\User\Base;
 
 use App\Entity\Base\AbstractEntity;
+use App\Entity\Traits\DeletedAtTrait;
 use App\Entity\Traits\IsActiveTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractUser extends AbstractEntity implements UserInterface
 {
-    use IsActiveTrait;
+    use IsActiveTrait,
+        DeletedAtTrait;
 
     /**
      * @ORM\Column(name="email", type="string", length=180, unique=true)
@@ -30,6 +32,11 @@ abstract class AbstractUser extends AbstractEntity implements UserInterface
      * @ORM\Column(name="username_canonical", type="string", length=180, unique=true)
      */
     protected string $usernameCanonical;
+
+    /**
+     * @ORM\Column(name="confirmation_token", type="string", length=180, unique=true)
+     */
+    protected string $confirmationToken;
 
     /**
      * @ORM\Column(type="json")
@@ -124,6 +131,22 @@ abstract class AbstractUser extends AbstractEntity implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfirmationToken(): string
+    {
+        return $this->confirmationToken;
+    }
+
+    /**
+     * @param string $confirmationToken
+     */
+    public function setConfirmationToken(string $confirmationToken): void
+    {
+        $this->confirmationToken = $confirmationToken;
     }
 
     /**
