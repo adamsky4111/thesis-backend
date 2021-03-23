@@ -3,7 +3,7 @@
 namespace App\Entity\User;
 
 use App\Enum\UserRoleEnum;
-use App\Repository\User\UserRepository;
+use App\Repository\User\Doctrine\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User\Base\AbstractUser as BaseUser;
 

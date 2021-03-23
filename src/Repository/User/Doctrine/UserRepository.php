@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repository\User;
+namespace App\Repository\User\Doctrine;
 
 use App\Entity\User\User;
+use App\Repository\User\UserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -11,7 +12,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -34,5 +35,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newEncodedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function findActive(int $id): ?object
+    {
+        return $this->findOneBy(['isActive' => true, 'id' => $id, 'isDeleted' => false]);
+    }
+
+    public function findAllActive(): array
+    {
+        return $this->findBy(['isActive' => true, 'isDeleted' => false]);
     }
 }
