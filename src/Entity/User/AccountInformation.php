@@ -3,7 +3,7 @@
 namespace App\Entity\User;
 
 use App\Entity\Base\AbstractEntity;
-use App\Repository\User\AccountInformationRepository;
+use App\Repository\User\Doctrine\AccountInformationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

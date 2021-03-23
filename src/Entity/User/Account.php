@@ -5,7 +5,7 @@ namespace App\Entity\User;
 use App\Entity\Base\AbstractEntity;
 use App\Entity\Stream\Channel;
 use App\Enum\AccountRoleEnum;
-use App\Repository\User\AccountRepository;
+use App\Repository\User\Doctrine\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

@@ -2,7 +2,7 @@
 
 namespace App\Entity\User;
 
-use App\Repository\User\SettingsRepository;
+use App\Repository\User\Doctrine\SettingsRepository;
 use App\Entity\Base\AbstractEntity;
 use Doctrine\ORM\Mapping as ORM;
 
