@@ -13,6 +13,7 @@ final class UserContext implements UserContextInterface
 
     public function getUser(): ?User
     {
-        return $this->getUser();
+        $user = $this->security->getUser();
+        return ($user instanceof User) ? $user : null;
     }
 }
