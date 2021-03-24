@@ -51,5 +51,7 @@ final class DefaultUserFactory implements UserFactoryInterface
             ->setAbout($dto->getAbout());
 
         $this->em->persist($info);
+
+        return $user;
     }
 }
