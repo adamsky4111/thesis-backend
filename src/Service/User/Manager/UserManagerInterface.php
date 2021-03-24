@@ -13,6 +13,6 @@ interface UserManagerInterface
     public function getAllActive(): array;
     public function register(UserDto $dto): User;
     public function create(UserDto $dto): User;
-    public function update(User $user): User;
+    public function update(UserDto $dto, User $user): User;
     public function delete(User $user): void;
 }

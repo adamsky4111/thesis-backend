@@ -61,8 +61,9 @@ final class UserManager
         return $user;
     }
 
-    public function update(User $user): User
+    public function update(UserDto $dto, User $user): User
     {
+        $user = $this->factory->update($dto, $user);
         $this->dispatcher->dispatch((new UserEvent($user)), UserEvent::PRE_UPDATE);
         $this->save($user);
         $this->dispatcher->dispatch((new UserEvent($user)), UserEvent::POST_UPDATE);
