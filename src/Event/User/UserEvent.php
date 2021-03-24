@@ -15,10 +15,13 @@ class UserEvent extends Event
     public const POST_CREATE = 'user.create.post';
     public const REGISTERED = 'user.registered';
     public const USER_VERIFIED = 'user.verified';
+    public const RESTORE_PASSWORD_TOKEN_GENERATED = 'user.token.generate.restore';
+    public const USER_PASSWORD_CHANGED = 'user.password.changed';
+
 
     public function __construct(
         protected User $user
-    ) { }
+    ) {}
 
     public function getUser(): User
     {
