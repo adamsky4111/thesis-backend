@@ -40,4 +40,16 @@ final class DefaultUserFactory implements UserFactoryInterface
 
         return $user;
     }
+
+    public function update(UserDto $dto, User $user): User
+    {
+        $info = $user->getAccount()->getAccountInformation();
+        $info->setFirstName($dto->getFirstName())
+            ->setLastName($dto->getLastName())
+            ->setNick($dto->getNick())
+            ->setCountry($dto->getCountry())
+            ->setAbout($dto->getAbout());
+
+        $this->em->persist($info);
+    }
 }
