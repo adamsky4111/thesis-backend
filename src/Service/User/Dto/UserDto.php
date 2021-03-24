@@ -2,20 +2,66 @@
 
 namespace App\Service\User\Dto;
 
-final class UserDto
+use App\Entity\User\User;
+use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+final class UserDto extends Dto
 {
+    public const GROUP_FORGOT_PASSWORD = 'forgot_password';
+
     public function __construct(
         # user data
+        /**
+         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
+         */
         private string $username,
+        /**
+         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
+         */
         private string $email,
+        /**
+         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
+         */
         private string $plainPassword,
         # account information data
+        /**
+         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
+         */
         private ?string $firstName,
+        /**
+         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
+         */
         private ?string $lastName,
+        /**
+         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
+         */
         private ?string $nick,
+        /**
+         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
+         */
         private ?string $country,
+        /**
+         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
+         */
         private ?string $about,
     ) { }
+
+    #[Pure] public static function createFromUser(User $user): self
+    {
+        $info = $user->getAccount()->getAccountInformation();
+
+        return new UserDto(
+            $user->getUsername(),
+            $user->getEmail(),
+            $user->getPlainPassword(),
+            $info->getFirstName(),
+            $info->getLastName(),
+            $info->getNick(),
+            $info->getCountry(),
+            $info->getAbout(),
+        );
+    }
 
     /**
      * @return string
