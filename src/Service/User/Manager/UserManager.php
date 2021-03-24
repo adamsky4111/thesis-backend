@@ -46,6 +46,7 @@ final class UserManager
     {
         $user = $this->create($dto);
         $this->verifier->generateToken($user);
+        $this->save($user);
         $this->dispatcher->dispatch((new UserEvent($user)), UserEvent::REGISTERED);
 
         return $user;
@@ -82,8 +83,7 @@ final class UserManager
 
     protected function save(User $user): User
     {
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->users->save($user);
 
         return $user;
     }

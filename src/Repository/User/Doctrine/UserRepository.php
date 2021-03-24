@@ -46,4 +46,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         return $this->findBy(['isActive' => true, 'isDeleted' => false]);
     }
+
+    public function save(User $user): User
+    {
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $user;
+    }
 }
