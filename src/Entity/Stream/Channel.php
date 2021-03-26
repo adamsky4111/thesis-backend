@@ -45,6 +45,11 @@ class Channel extends AbstractEntity
      */
     private Account $account;
 
+    /**
+     * @ORM\Column(name="default", type="boolean", nullable=false)
+     */
+    private bool $default = false;
+
     public function __construct(
         Settings $settings,
         Account $account,
@@ -163,15 +168,31 @@ class Channel extends AbstractEntity
         return $this;
     }
 
-    public function getAccount(): ?Account
+    public function getAccount(): Account
     {
         return $this->account;
     }
 
-    public function setAccount(?Account $account): self
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDefault(): bool
+    {
+        return $this->default;
+    }
+
+    /**
+     * @param bool $default
+     */
+    public function setDefault(bool $default): void
+    {
+        $this->default = $default;
     }
 }
