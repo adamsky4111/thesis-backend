@@ -3,8 +3,9 @@
 namespace App\Entity\Stream;
 
 use App\Entity\Base\AbstractEntity;
+use App\Entity\Traits\IsActiveTrait;
 use App\Entity\User\Settings;
-use App\Repository\Stream\StreamRepository;
+use App\Repository\Stream\StreamRepositoryInterface;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,6 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stream extends AbstractEntity
 {
+    use IsActiveTrait;
+
     /**
      * @ORM\Column(name="name", type="string", length=255)
      */

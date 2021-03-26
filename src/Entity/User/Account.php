@@ -9,6 +9,8 @@ use App\Repository\User\Doctrine\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Stream\Stream;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=AccountRepository::class)
@@ -25,6 +27,11 @@ class Account extends AbstractEntity
      * @ORM\OneToOne(targetEntity=AccountInformation::class, inversedBy="account", cascade={"persist", "remove"})
      */
     protected ?AccountInformation $accountInformation;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Stream::class, cascade={"persist", "remove"})
+     */
+    protected ?Stream $actualStream;
 
     /**
      * @ORM\ManyToMany(targetEntity="Settings")
@@ -106,6 +113,22 @@ class Account extends AbstractEntity
     }
 
     /**
+     * @return Stream|null
+     */
+    public function getActualStream(): ?Stream
+    {
+        return $this->actualStream;
+    }
+
+    /**
+     * @param Stream|null $actualStream
+     */
+    public function setActualStream(?Stream $actualStream): void
+    {
+        $this->actualStream = $actualStream;
+    }
+
+    /**
      * @return Collection|Settings[]
      */
     public function getSettings(): Collection
@@ -166,6 +189,18 @@ class Account extends AbstractEntity
         }
 
         return $this;
+    }
+
+    #[Pure] public function getDefaultChannel(): ?Channel
+    {
+        /** @var Channel $channel */
+        foreach ($this->channels as $channel) {
+            if ($channel->isDefault()) {
+                return $channel;
+            }
+        }
+
+        return null;
     }
 
 }
