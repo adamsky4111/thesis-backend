@@ -8,7 +8,7 @@ use App\Event\User\UserEvent;
 use App\Repository\User\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-final class DefaultRestorePassword
+final class DefaultRestorePassword implements RestorePasswordInterface
 {
     public function __construct(
         protected ConfirmationTokenCheckerInterface $checker,

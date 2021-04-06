@@ -7,5 +7,5 @@ use App\Entity\User\User;
 interface RestorePasswordInterface
 {
     public function generateToken(User $user);
-    public function restorePassword(string $newPassword, $token): bool;
+    public function restorePassword(User $user, string $newPassword, $token): bool;
 }

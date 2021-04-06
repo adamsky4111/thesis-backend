@@ -29,10 +29,10 @@ class UserSerializer implements ContextAwareNormalizerInterface, ContextAwareDen
 
     public function supportsNormalization($data, $format = null, array $context = []): bool
     {
-        return $data instanceof User;
+        return $data instanceof UserDto || $data instanceof User;
     }
 
-    public function denormalize($data, $type, $format = null, array $context = []): object|array
+    public function denormalize($data, $type = null, $format = null, array $context = []): object|array
     {
         return $this->serializer->deserialize(
             $data,
@@ -44,7 +44,11 @@ class UserSerializer implements ContextAwareNormalizerInterface, ContextAwareDen
 
     public function normalize($object, $format = null, array $context = [])
     {
-        return $this->serializer->normalize(UserDto::createFromUser($object), null, [
+        if ($object instanceof User) {
+            $object = UserDto::createFromUser($object);
+        }
+
+        return $this->serializer->normalize($object, null, [
             'groups' => UserDto::GROUP_DEFAULT
         ]);
     }
