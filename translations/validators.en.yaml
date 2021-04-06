@@ -1,0 +1,6 @@
+validator:
+  error:
+    generic:
+      already_exist: "The {{ property }} is already in used."
+    email:
+      wrong_format: "The email \"{{ string }}\" doesn't valid email format."
