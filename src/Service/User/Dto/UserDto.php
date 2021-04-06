@@ -3,28 +3,32 @@
 namespace App\Service\User\Dto;
 
 use App\Entity\User\User;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
 
 final class UserDto extends Dto
 {
     public const GROUP_FORGOT_PASSWORD = 'forgot_password';
+    public const GROUP_TOKEN_CONFIRMATION = 'token_confirmation';
 
     public function __construct(
         # user data
         /**
          * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
          * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
+         * @AppAssert\UniqueProperty(propertyName="username", className=User::class)
          */
         private string $username,
         /**
          * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
          * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
+         * @AppAssert\Email
+         * @AppAssert\UniqueProperty(propertyName="email", className=User::class)
          */
         private string $email,
         /**
-         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
+         * @Groups({ UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
          * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
          */
         private string $plainPassword,
@@ -51,7 +55,7 @@ final class UserDto extends Dto
         private ?string $about,
     ) { }
 
-    #[Pure] public static function createFromUser(User $user): self
+    public static function createFromUser(User $user): self
     {
         $info = $user->getAccount()->getAccountInformation();
 
