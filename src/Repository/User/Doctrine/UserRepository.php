@@ -5,6 +5,7 @@ namespace App\Repository\User\Doctrine;
 use App\Entity\User\User;
 use App\Repository\User\UserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -54,5 +55,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $em->flush();
 
         return $user;
+    }
+
+    public function findByEmailOrUsername(string $phrase): ?User
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->orWhere('u.username = :phrase')
+                ->orWhere('u.email = :phrase')
+                ->setParameter('phrase', $phrase)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 }

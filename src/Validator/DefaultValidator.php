@@ -3,6 +3,7 @@
 namespace App\Validator;
 
 use App\Service\User\Dto\Dto;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface as BaseValidator;
 
 final class DefaultValidator implements ValidatorInterface
@@ -20,8 +21,14 @@ final class DefaultValidator implements ValidatorInterface
         return (count($this->errors) > 0);
     }
 
-    public function getErrors(bool $normalize = false): string|array
+    public function getErrors(bool $normalize = true): array
     {
-        return ($normalize) ? (string) $this->errors : $this->errors;
+        $normalized = [];
+        /** @var ConstraintViolation $error */
+        foreach ($this->errors as $error) {
+            $normalized[$error->getPropertyPath()] = $error->getMessage();
+        }
+
+        return $normalized;
     }
 }

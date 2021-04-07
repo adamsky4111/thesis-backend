@@ -1,0 +1,7 @@
+http:
+  error:
+    wrong_json: wrong JSON format
+validator:
+  error:
+    generic:
+      already_exist: "The {{ property }} is already in used."

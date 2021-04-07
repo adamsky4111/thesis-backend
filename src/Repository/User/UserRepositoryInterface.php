@@ -12,4 +12,5 @@ interface UserRepositoryInterface
     public function findAllActive();
     public function upgradePassword(User $user, string $newEncodedPassword): void;
     public function save(User $user): User;
+    public function findByEmailOrUsername(string $phrase): ?User;
 }

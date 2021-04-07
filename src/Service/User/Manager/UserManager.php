@@ -11,7 +11,7 @@ use App\Service\User\Factory\UserFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-final class UserManager
+final class UserManager implements UserManagerInterface
 {
     public function __construct(
         protected UserRepositoryInterface $users,
@@ -40,6 +40,11 @@ final class UserManager
     public function getAllActive(): array
     {
         return $this->users->findAllActive();
+    }
+
+    public function getByUsernameOrEmail(string $phrase): ?User
+    {
+        return $this->users->findByEmailOrUsername($phrase);
     }
 
     public function register(UserDto $dto): User

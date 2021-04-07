@@ -34,9 +34,9 @@ abstract class AbstractUser extends AbstractEntity implements UserInterface
     protected string $usernameCanonical;
 
     /**
-     * @ORM\Column(name="confirmation_token", type="string", length=180, unique=true)
+     * @ORM\Column(name="confirmation_token", type="string", length=180, unique=true, nullable=true)
      */
-    protected string $confirmationToken;
+    protected ?string $confirmationToken;
 
     /**
      * @ORM\Column(type="json")
@@ -49,7 +49,7 @@ abstract class AbstractUser extends AbstractEntity implements UserInterface
      */
     protected string $password;
 
-    protected ?string $plainPassword;
+    protected ?string $plainPassword = '';
 
     public function getEmail(): ?string
     {
@@ -134,17 +134,17 @@ abstract class AbstractUser extends AbstractEntity implements UserInterface
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getConfirmationToken(): string
+    public function getConfirmationToken(): ?string
     {
         return $this->confirmationToken;
     }
 
     /**
-     * @param string $confirmationToken
+     * @param ?string $confirmationToken
      */
-    public function setConfirmationToken(string $confirmationToken): void
+    public function setConfirmationToken(?string $confirmationToken): void
     {
         $this->confirmationToken = $confirmationToken;
     }

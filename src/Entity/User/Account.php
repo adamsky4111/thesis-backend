@@ -54,7 +54,7 @@ class Account extends AbstractEntity
 
     public function __construct(User $user)
     {
-        $this->setUser($user);
+        $this->user = $user;
         $user->setAccount($this);
         $this->setAccountInformation(new AccountInformation());
         $this->setRoles([AccountRoleEnum::REGULAR_ACCOUNT]);
