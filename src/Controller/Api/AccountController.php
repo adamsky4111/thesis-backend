@@ -43,7 +43,7 @@ class AccountController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        if ($this->validator->validate($user)) {
+        if ($this->validator->validate($user, [UserDto::GROUP_UPDATE])) {
             return $this->json(['errors' => $this->validator->getErrors()]);
         }
 
