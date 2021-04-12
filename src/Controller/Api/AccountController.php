@@ -49,6 +49,24 @@ class AccountController extends AbstractController
 
         $user = $this->manager->update($user, $loggedUser);
 
-        return $this->json(['data' => $user]);
+        return $this->json(['user' => $user]);
+    }
+
+    /**
+     * @Route("/avatar", name="avatar")
+     */
+    public function avatarAction(Request $request): JsonResponse
+    {
+        $loggedUser = $this->user->getUser();
+
+        if (!$loggedUser) {
+            throw $this->createNotFoundException();
+        }
+
+        $avatar = $request->files->get('file');
+
+        $avatarPath = $this->manager->changeAvatar($avatar, $loggedUser);
+
+        return $this->json(['avatar' => $avatarPath]);
     }
 }
