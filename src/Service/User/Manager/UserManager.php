@@ -9,6 +9,7 @@ use App\Repository\User\UserRepositoryInterface;
 use App\Service\User\Dto\UserDto;
 use App\Service\User\Factory\UserFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 final class UserManager implements UserManagerInterface
@@ -20,6 +21,7 @@ final class UserManager implements UserManagerInterface
         protected UserFactoryInterface $factory,
         protected EventDispatcherInterface $dispatcher,
         protected UserVerifierInterface $verifier,
+        protected AvatarCreatorInterface $avatar,
     ) { }
 
     public function get(int $id): null|User
@@ -91,5 +93,18 @@ final class UserManager implements UserManagerInterface
         $this->users->save($user);
 
         return $user;
+    }
+
+    public function changeAvatar(UploadedFile $file, User $user): string
+    {
+        $avatar = $this->avatar->newAvatar($user, $file);
+
+        $account = $user->getAccount();
+
+        $account->setAvatar($avatar);
+
+        $this->users->save($user);
+
+        return $this->avatar->resolveAvatarPath($avatar->getFilename());
     }
 }

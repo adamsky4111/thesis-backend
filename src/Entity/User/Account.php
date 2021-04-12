@@ -29,6 +29,11 @@ class Account extends AbstractEntity
     protected ?AccountInformation $accountInformation;
 
     /**
+     * @ORM\OneToOne(targetEntity=Media::class, cascade={"persist", "remove"})
+     */
+    protected ?Media $avatar;
+
+    /**
      * @ORM\OneToOne(targetEntity=Stream::class, cascade={"persist", "remove"})
      */
     protected ?Stream $actualStream;
@@ -110,6 +115,22 @@ class Account extends AbstractEntity
         $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * @return Media|null
+     */
+    public function getAvatar(): ?Media
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param Media|null $avatar
+     */
+    public function setAvatar(?Media $avatar): void
+    {
+        $this->avatar = $avatar;
     }
 
     /**

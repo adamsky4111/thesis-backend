@@ -12,26 +12,31 @@ final class UserDto extends Dto
     public const GROUP_FORGOT_PASSWORD = 'forgot_password';
     public const GROUP_TOKEN_CONFIRMATION = 'token_confirmation';
 
+    /**
+     * @Groups({ UserDto::GROUP_DEFAULT })
+     */
+    private ?string $avatar;
+
     public function __construct(
         # user data
         /**
          * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
          * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
-         * @AppAssert\UniqueProperty(propertyName="username", className=User::class)
+         * @AppAssert\UniqueProperty(propertyName="username", className=User::class, groups={ UserDto::GROUP_CREATE })
          */
         private string $username,
         /**
          * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
          * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
          * @AppAssert\Email
-         * @AppAssert\UniqueProperty(propertyName="email", className=User::class)
+         * @AppAssert\UniqueProperty(propertyName="email", className=User::class, groups={ UserDto::GROUP_CREATE })
          */
         private string $email,
         /**
          * @Groups({ UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
          * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
          */
-        private string $plainPassword,
+        private ?string $plainPassword,
         # account information data
         /**
          * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
@@ -58,8 +63,9 @@ final class UserDto extends Dto
     public static function createFromUser(User $user): self
     {
         $info = $user->getAccount()->getAccountInformation();
+        $avatar = $user->getAccount()->getAvatar()?->getFilename();
 
-        return new UserDto(
+        $created = new UserDto(
             $user->getUsername(),
             $user->getEmail(),
             $user->getPlainPassword(),
@@ -69,6 +75,10 @@ final class UserDto extends Dto
             $info->getCountry(),
             $info->getAbout(),
         );
+
+        $created->setAvatar($avatar);
+
+        return $created;
     }
 
     /**
@@ -133,5 +143,21 @@ final class UserDto extends Dto
     public function getAbout(): ?string
     {
         return $this->about;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param string|null $avatar
+     */
+    public function setAvatar(?string $avatar): void
+    {
+        $this->avatar = $avatar;
     }
 }
