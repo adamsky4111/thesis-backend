@@ -4,6 +4,7 @@ namespace App\Service\User\Manager;
 
 use App\Entity\User\User;
 use App\Service\User\Dto\UserDto;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface UserManagerInterface
 {
@@ -16,4 +17,5 @@ interface UserManagerInterface
     public function create(UserDto $dto): User;
     public function update(UserDto $dto, User $user): User;
     public function delete(User $user): void;
+    public function changeAvatar(UploadedFile $file, User $user): string;
 }

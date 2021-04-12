@@ -5,7 +5,7 @@ namespace App\Serializer;
 use App\Entity\User\User;
 use App\Serializer\Factory\SerializerFactory;
 use App\Service\User\Dto\UserDto;
-use App\Service\User\Manager\AvatarCreator;
+use App\Service\User\Manager\AvatarCreatorInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
@@ -15,11 +15,11 @@ class UserSerializer implements ContextAwareNormalizerInterface, ContextAwareDen
 {
     protected Serializer $serializer;
     protected TranslatorInterface $translator;
-    protected AvatarCreator $avatarCreator;
+    protected AvatarCreatorInterface $avatarCreator;
 
     public function __construct(
         TranslatorInterface $translator,
-        AvatarCreator $avatarCreator,
+        AvatarCreatorInterface $avatarCreator,
     ) {
         $this->serializer = SerializerFactory::getObjectNormalizer();
         $this->translator = $translator;
