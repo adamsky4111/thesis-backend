@@ -14,9 +14,9 @@ final class DefaultValidator implements ValidatorInterface
         protected BaseValidator $validator,
     ) {}
 
-    public function validate(Dto $dto): bool
+    public function validate(Dto $dto, array $groups = []): bool
     {
-        $this->errors = $this->validator->validate($dto);
+        $this->errors = $this->validator->validate($dto, null, $groups);
 
         return (count($this->errors) > 0);
     }
