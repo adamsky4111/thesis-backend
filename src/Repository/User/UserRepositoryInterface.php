@@ -8,6 +8,8 @@ interface UserRepositoryInterface
 {
     public function find(int $id);
     public function findActive(int $id);
+    public function findOneByUsername(string $username): ?User;
+    public function findOneByEmail(string $email): ?User;
     public function findAll();
     public function findAllActive();
     public function upgradePassword(User $user, string $newEncodedPassword): void;
