@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title> {% block title %} Witaj {{ user.username}}! {% endblock %}</title>
+    {% block stylesheets %}
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #f3f3f3;
+                font-family: Helvetica, Arial, sans-serif;
+            }
+            h1 {
+                background-color: #C40032;
+                color: #ffffff;
+                padding: 30px 0 50px 0;
+                font-weight: normal;
+            }
+            hr {
+                border: none;
+                border-top: 3px solid #C40032;
+                margin: 20px;
+            }
+            .container {
+                background-color: #fefefe;
+                width: 580px;
+                margin: 0 auto;
+            }
+            .bottom {
+                background-color: #efefee;
+            }
+            .block {
+                margin: 0;
+                padding: 10px 20px 20px 20px;
+            }
+            .logo {
+                width: 100%;
+            }
+            .text-center {
+                text-align: center;
+            }
+            .btn {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #C40032;
+                color: #fefefe;
+                border: 1px solid #fff;
+                border-radius: 3px;
+                font-size: 20px;
+                font-weight: bold;
+                text-decoration: none;
+            }
+            table {
+                border: solid black 2px;
+            }
+            table th {
+                text-align: left;
+                border-bottom: solid black 1px;
+            }
+            table tr {
+                text-align: left;
+            }
+        </style>{% endblock %}
+</head>
+<body>
+{% block body %}
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <h1 style="size: 50px">PRO STREAM</h1>
+        </div>
+        {% block content %}
+
+        {% endblock %}
+
+        <div class="footer">
+            <p class="block bottom text-center">
+                wysłano z PRO STREAM
+            </p>
+        </div>
+        {% endblock %}
+    </div>
+</div>
+{% block javascript %}
+
+{% endblock %}
+{% block footer %}
+{% endblock %}
+</body>
+</html>
