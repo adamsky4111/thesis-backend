@@ -31,7 +31,7 @@ class Account extends AbstractEntity
     /**
      * @ORM\OneToOne(targetEntity=Media::class, cascade={"persist", "remove"})
      */
-    protected ?Media $avatar;
+    protected ?Media $avatar = null;
 
     /**
      * @ORM\OneToOne(targetEntity=Stream::class, cascade={"persist", "remove"})

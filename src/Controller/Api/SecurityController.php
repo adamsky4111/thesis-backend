@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Model\DataTableFilter;
+use App\Repository\User\UserRepositoryInterface;
 use App\Serializer\UserSerializer;
 use App\Service\User\Dto\UserDto;
 use App\Service\User\Manager\RestorePasswordInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 /**
- * @Route("/api/security", name="api_security")
+ * @Route("/api/security", name="api_security_")
  */
 class SecurityController extends AbstractController
 {
@@ -30,6 +30,7 @@ class SecurityController extends AbstractController
         private ValidatorInterface $validator,
         private UserVerifierInterface $verifier,
         private RestorePasswordInterface $restore,
+        private UserRepositoryInterface $users,
     ) {}
 
     /**
@@ -47,7 +48,7 @@ class SecurityController extends AbstractController
             return $this->json(['errors' => 'wrong json format'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if ($this->validator->validate($user)) {
+        if ($this->validator->validate($user, [UserDto::GROUP_CREATE])) {
             return $this->json(['errors' => $this->validator->getErrors()]);
         }
 
@@ -66,7 +67,7 @@ class SecurityController extends AbstractController
         /** @var ConfirmationAccountModel $model */
         $model = RequestHelper::denormalizeFromRequest($request, ConfirmationAccountModel::class);
 
-        if (!$user = $this->manager->getByUsernameOrEmail($model->getEmail())) {
+        if (!$user = $this->users->findOneByEmail($model->getEmail())) {
             $this->createNotFoundException();
         }
 
@@ -86,7 +87,7 @@ class SecurityController extends AbstractController
         /** @var RestorePasswordModel $model */
         $model = RequestHelper::denormalizeFromRequest($request, RestorePasswordModel::class);
 
-        if (!$user = $this->manager->getByUsernameOrEmail($model->getEmail())) {
+        if (!$user = $this->users->findOneByEmail($model->getEmail())) {
             $this->createNotFoundException();
         }
 
@@ -105,7 +106,7 @@ class SecurityController extends AbstractController
         /** @var RestorePasswordModel $model */
         $model = RequestHelper::denormalizeFromRequest($request, RestorePasswordModel::class);
 
-        if (!$user = $this->manager->getByUsernameOrEmail($model->getEmail())) {
+        if (!$user = $this->users->findOneByEmail($model->getEmail())) {
             $this->createNotFoundException();
         }
 

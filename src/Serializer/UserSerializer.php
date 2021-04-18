@@ -56,7 +56,9 @@ class UserSerializer implements ContextAwareNormalizerInterface, ContextAwareDen
             'groups' => UserDto::GROUP_DEFAULT
         ]);
 
-        $serialized['avatar'] = $this->avatarCreator->resolveAvatarPath($serialized['avatar']);
+        if (null !== $serialized['avatar']) {
+            $serialized['avatar'] = $this->avatarCreator->resolveAvatarPath($serialized['avatar']);
+        }
 
         return $serialized;
     }

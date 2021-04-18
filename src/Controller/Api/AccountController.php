@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/account", name="api_account")
+ * @Route("/api/account", name="api_account_")
  */
 class AccountController extends AbstractController
 {
