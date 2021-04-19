@@ -110,8 +110,8 @@ class SecurityController extends AbstractController
             $this->createNotFoundException();
         }
 
-        $restored = $this->restore->generateToken($user);
+        $generated = $this->restore->generateToken($user);
 
-        return $this->json([], $restored ? 200 : 400);
+        return $this->json([], $generated ? 200 : 400);
     }
 }

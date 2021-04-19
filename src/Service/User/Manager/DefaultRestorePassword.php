@@ -18,18 +18,21 @@ final class DefaultRestorePassword implements RestorePasswordInterface
         protected EventDispatcherInterface $dispatcher,
     ) {}
 
-    public function generateToken(User $user)
+    public function generateToken(User $user): bool
     {
         $this->generator->generate($user);
         $this->users->save($user);
 
         $this->dispatcher->dispatch((new UserEvent($user)), UserEvent::RESTORE_PASSWORD_TOKEN_GENERATED);
+
+        return true;
     }
     public function restorePassword(User $user, string $newPassword, $token): bool
     {
         $isValid = $this->checker->check($user, $token);
 
         if ($isValid) {
+            $user->setConfirmationToken(null);
             $this->users->upgradePassword($user, $this->encoder->encodePassword($user, $newPassword));
             $this->dispatcher->dispatch((new UserEvent($user)), UserEvent::USER_PASSWORD_CHANGED);
         }
