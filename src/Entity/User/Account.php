@@ -39,13 +39,9 @@ class Account extends AbstractEntity
     protected ?Stream $actualStream;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Settings")
-     * @ORM\JoinTable(name="account_settings",
-     *      joinColumns={@ORM\JoinColumn(name="account_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="setting_id", referencedColumnName="id")}
-     *      )
+     * @ORM\OneToMany(targetEntity=Settings::class, mappedBy="account")
      */
-    protected iterable $settings;
+    private iterable $settings;
 
     /**
      * @ORM\Column(type="json")
@@ -150,7 +146,7 @@ class Account extends AbstractEntity
     }
 
     /**
-     * @return Collection|Settings[]
+     * @return Collection
      */
     public function getSettings(): Collection
     {
@@ -161,6 +157,7 @@ class Account extends AbstractEntity
     {
         if (!$this->settings->contains($settings)) {
             $this->settings[] = $settings;
+            $settings->setAccount($this);
         }
 
         return $this;
@@ -170,6 +167,7 @@ class Account extends AbstractEntity
     {
         if ($this->settings->contains($settings)) {
             $this->settings->removeElement($settings);
+            $settings->setAccount(null);
         }
 
         return $this;
