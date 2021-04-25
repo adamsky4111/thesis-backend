@@ -14,7 +14,7 @@ interface SettingsRepositoryInterface
         'total' => "int",
         'pages' => "int"
     ])]
-    public function findWithFilter(FilterInterface $filter): array;
+    public function findByFilter(FilterInterface $filter): array;
     public function save(Settings $settings): Settings;
     public function remove(Settings $settings): Settings;
 }

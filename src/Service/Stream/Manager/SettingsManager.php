@@ -27,7 +27,7 @@ final class SettingsManager implements SettingsManagerInterface
     ])]
     public function getSettingsData(SettingsFilter $filter): iterable
     {
-       return $this->settings->findWithFilter($filter);
+       return $this->settings->findByFilter($filter);
     }
 
     public function get(int $id): SettingsDto
