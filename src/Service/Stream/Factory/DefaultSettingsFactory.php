@@ -34,6 +34,13 @@ final class DefaultSettingsFactory implements SettingsFactoryInterface
 
     public function update(SettingsDto $dto, Settings $settings): Settings
     {
+        $account = $settings->getAccount();
+        if ($dto->isDefault()) {
+            /** @var Settings $setting */
+            foreach ($account->getSettings() as $setting) {
+                $setting->setIsDefault(false);
+            }
+        }
         $settings->setName($dto->getName());
         $settings->setAgeAllowed($dto->getAgeAllowed());
         $settings->setIsDefault($dto->isDefault());
