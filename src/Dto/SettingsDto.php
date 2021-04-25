@@ -21,7 +21,7 @@ final class SettingsDto extends Dto
         private string $name,
         /**
          * @Groups({ SettingsDto::GROUP_DEFAULT, SettingsDto::GROUP_CREATE, SettingsDto::GROUP_UPDATE })
-         * @Assert\NotBlank(groups={ SettingsDto::GROUP_CREATE, SettingsDto::GROUP_UPDATE  })
+         * @Assert\Type(type="boolean", groups={ SettingsDto::GROUP_CREATE, SettingsDto::GROUP_UPDATE  })
          */
         private bool $isDefault,
         /**
