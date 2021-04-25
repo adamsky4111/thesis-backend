@@ -26,6 +26,11 @@ class Settings extends AbstractEntity
      */
     private string $ageAllowed;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="settings")
+     */
+    protected Account $account;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -60,5 +65,15 @@ class Settings extends AbstractEntity
         $this->ageAllowed = $ageAllowed;
 
         return $this;
+    }
+
+    public function getAccount(): Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(Account $account): void
+    {
+        $this->account = $account;
     }
 }
