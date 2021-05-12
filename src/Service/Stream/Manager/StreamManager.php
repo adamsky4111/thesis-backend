@@ -7,10 +7,12 @@ use App\Entity\Stream\Stream;
 use App\Entity\User\User;
 use App\Event\EventDispatcherInterface;
 use App\Event\Stream\StreamEvent;
+use App\Filter\FilterInterface;
 use App\Repository\Stream\StreamRepositoryInterface;
 use App\Service\Stream\Context\ChannelContextInterface;
 use App\Service\Stream\Factory\StreamFactoryInterface;
 use App\Service\User\Context\AccountContextInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class StreamManager implements StreamManagerInterface
 {
@@ -21,6 +23,11 @@ final class StreamManager implements StreamManagerInterface
         protected AccountContextInterface $account,
         protected EventDispatcherInterface $dispatcher,
     ) {}
+
+    public function searchByFilter(FilterInterface $filter): array
+    {
+        return $this->streams->searchByFilter($filter);
+    }
 
     public function getUserActualStream(User $user): ?StreamDto
     {
@@ -62,5 +69,19 @@ final class StreamManager implements StreamManagerInterface
         $account->setActualStream($stream);
         $this->dispatcher->dispatch((new StreamEvent($stream)), StreamEvent::STREAM_START);
         $this->streams->save($stream);
+    }
+
+    public function getOr404(int $id): Stream
+    {
+        if (null === ($stream = $this->streams->findActive($id))) {
+            throw new NotFoundHttpException();
+        }
+
+        return $stream;
+    }
+
+    public function get(int $id): StreamDto
+    {
+        return StreamDto::createFromObject($this->getOr404($id));
     }
 }

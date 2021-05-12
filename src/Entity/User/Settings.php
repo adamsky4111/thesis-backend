@@ -2,6 +2,7 @@
 
 namespace App\Entity\User;
 
+use App\Entity\Base\EntityInterface;
 use App\Repository\User\Doctrine\SettingsRepository;
 use App\Entity\Base\AbstractEntity;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=SettingsRepository::class)
  */
-class Settings extends AbstractEntity
+class Settings extends AbstractEntity implements EntityInterface
 {
     /**
      * @ORM\Column(name="name", type="string", length=120)
@@ -25,6 +26,11 @@ class Settings extends AbstractEntity
      * @ORM\Column(name="age_allowed", type="string", length=3)
      */
     private string $ageAllowed;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="settings")
+     */
+    protected ?Account $account;
 
     public function getName(): ?string
     {
@@ -60,5 +66,15 @@ class Settings extends AbstractEntity
         $this->ageAllowed = $ageAllowed;
 
         return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?Account $account): void
+    {
+        $this->account = $account;
     }
 }

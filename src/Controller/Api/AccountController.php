@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/account", name="api_account")
+ * @Route("/api/account", name="api_account_")
  */
 class AccountController extends AbstractController
 {
@@ -43,12 +43,30 @@ class AccountController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        if ($this->validator->validate($user)) {
+        if ($this->validator->validate($user, [UserDto::GROUP_UPDATE])) {
             return $this->json(['errors' => $this->validator->getErrors()]);
         }
 
         $user = $this->manager->update($user, $loggedUser);
 
-        return $this->json(['data' => $user]);
+        return $this->json(['user' => $user]);
+    }
+
+    /**
+     * @Route("/avatar", name="avatar")
+     */
+    public function avatarAction(Request $request): JsonResponse
+    {
+        $loggedUser = $this->user->getUser();
+
+        if (!$loggedUser) {
+            throw $this->createNotFoundException();
+        }
+
+        $avatar = $request->files->get('file');
+
+        $avatarPath = $this->manager->changeAvatar($avatar, $loggedUser);
+
+        return $this->json(['avatar' => $avatarPath]);
     }
 }

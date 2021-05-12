@@ -3,9 +3,10 @@
 namespace App\Entity\Stream;
 
 use App\Entity\Base\AbstractEntity;
+use App\Entity\Base\EntityInterface;
 use App\Entity\Traits\IsActiveTrait;
+use App\Repository\Stream\Doctrine\StreamRepository;
 use App\Entity\User\Settings;
-use App\Repository\Stream\StreamRepositoryInterface;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=StreamRepository::class)
  */
-class Stream extends AbstractEntity
+class Stream extends AbstractEntity implements EntityInterface
 {
     use IsActiveTrait;
 
@@ -44,8 +45,8 @@ class Stream extends AbstractEntity
     protected string $description;
 
     /**
-     * @Orm\OneToOne(targetEntity=Chat::class)
-     * @Orm\JoinColumn(name="chat_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity=Chat::class, cascade="persist")
+     * @ORM\JoinColumn(name="chat_id", referencedColumnName="id")
      */
     protected Chat $chat;
 

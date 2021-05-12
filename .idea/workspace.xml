@@ -1,59 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ffe67d2a-9211-47e6-8d69-44abe477edee" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.env.test" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/console" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/phpunit" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/bootstrap.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/cache.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/debug.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/monolog.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/web_profiler.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/doctrine_migrations.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/mailer.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/prod/deprecations.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/prod/doctrine.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/prod/monolog.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/prod/routing.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/routing.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/sensio_framework_extra.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/framework.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/monolog.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/twig.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/validator.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/web_profiler.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/translation.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/twig.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/validator.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/preload.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes/annotations.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes/dev/framework.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes/dev/web_profiler.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrations/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/phpunit.xml.dist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Kernel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/bootstrap.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/translations/.gitignore" afterDir="false" />
+    <list default="true" id="ffe67d2a-9211-47e6-8d69-44abe477edee" name="Default Changelist" comment="add settings api">
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/AccountChannelController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/AccountStreamController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/ChatController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/Public/StreamController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Dto/ChannelDto.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Dto/MessageDto.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Base/EntityInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Event/User/ChannelEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EventListener/User/ChannelSubscriber.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Filter/AccountChannelFilter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Filter/SearchFilter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/RepositoryInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/Stream/ChannelRepositoryInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/Stream/ChatRepositoryInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/Stream/MessageRepositoryInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Security/Voter/User/ChannelVoter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Serializer/ChannelSerializer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Serializer/MessageSerializer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Serializer/StreamSerializer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Chat/Factory/DefaultMessageFactory.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Chat/Factory/MessageFactoryInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Chat/Manager/ChatManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Chat/Manager/ChatManagerInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Stream/Factory/ChannelFactoryInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Stream/Factory/DefaultChannelFactory.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Stream/Manager/ChannelManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Stream/Manager/ChannelManagerInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/User/Eligibility/ChannelEligibility.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Api/SettingsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Api/SettingsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dto/SettingsDto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dto/SettingsDto.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dto/StreamDto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dto/StreamDto.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Stream/Channel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stream/Channel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Stream/Chat.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stream/Chat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Stream/Message.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stream/Message.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Stream/Stream.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stream/Stream.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User/Account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User/Settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User/Settings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/AbstractDoctrineFilterRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/AbstractDoctrineFilterRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/AbstractDoctrineRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/AbstractDoctrineRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/Stream/ChannelRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Stream/Doctrine/ChannelRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/Stream/ChatRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Stream/Doctrine/ChatRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/Stream/Doctrine/StreamRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Stream/Doctrine/StreamRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/Stream/MessageRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Stream/Doctrine/MessageRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/Stream/StreamRepositoryInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Stream/StreamRepositoryInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/User/Doctrine/SettingsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/User/Doctrine/SettingsRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/User/SettingsRepositoryInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/User/SettingsRepositoryInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Serializer/Factory/SerializerFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Serializer/Factory/SerializerFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Context/ChannelContext.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Stream/Context/ChannelContext.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Factory/DefaultSettingsFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Stream/Factory/DefaultSettingsFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Factory/DefaultStreamFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Stream/Factory/DefaultStreamFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Filter/AbstractFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Filter/AbstractFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Filter/FilterInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Filter/FilterInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Filter/SettingsFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Filter/SettingsFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Manager/SettingsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Stream/Manager/SettingsManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Manager/SettingsManagerInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Stream/Manager/SettingsManagerInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Manager/StreamManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Stream/Manager/StreamManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Stream/Manager/StreamManagerInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Stream/Manager/StreamManagerInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/User/Dto/Dto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/User/Dto/Dto.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/User/Dto/UserDto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/User/Dto/UserDto.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +77,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -169,6 +188,13 @@
       <path value="$PROJECT_DIR$/vendor/psr/link" />
       <path value="$PROJECT_DIR$/vendor/doctrine/migrations" />
       <path value="$PROJECT_DIR$/vendor/symfony/phpunit-bridge" />
+      <path value="$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle" />
+      <path value="$PROJECT_DIR$/vendor/namshi/jose" />
+      <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/vendor/nelmio/cors-bundle" />
+      <path value="$PROJECT_DIR$/vendor/gesdinet/jwt-refresh-token-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/google-mailer" />
     </include_path>
   </component>
   <component name="ProjectId" id="1oUDmR9CLXuy4RT09JP72JBhu3p" />
@@ -180,9 +206,17 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../frontend" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Repository/Stream/Doctrine" />
+      <recent name="$PROJECT_DIR$/src/Repository/Stream" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -197,6 +231,28 @@
       <workItem from="1613401456693" duration="1061000" />
       <workItem from="1613480009485" duration="1234000" />
       <workItem from="1613499861835" duration="295000" />
+      <workItem from="1618846658110" duration="129000" />
+      <workItem from="1618846788804" duration="4328000" />
+      <workItem from="1618851170617" duration="87000" />
+      <workItem from="1618851281086" duration="14796000" />
+      <workItem from="1619100548865" duration="1677000" />
+      <workItem from="1619109422983" duration="9000" />
+      <workItem from="1619129531390" duration="1922000" />
+      <workItem from="1619260019879" duration="13470000" />
+      <workItem from="1619420051803" duration="5000" />
+      <workItem from="1619463670267" duration="3569000" />
+      <workItem from="1619502330468" duration="15000" />
+      <workItem from="1619549107084" duration="3353000" />
+      <workItem from="1619628695740" duration="603000" />
+      <workItem from="1619985828007" duration="16027000" />
+      <workItem from="1620111554955" duration="7000" />
+      <workItem from="1620155562551" duration="618000" />
+      <workItem from="1620242428988" duration="2349000" />
+      <workItem from="1620293297593" duration="599000" />
+      <workItem from="1620301908854" duration="664000" />
+      <workItem from="1620466374814" duration="11668000" />
+      <workItem from="1620766726463" duration="3794000" />
+      <workItem from="1620801409288" duration="2032000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1613332483699</created>
@@ -205,7 +261,77 @@
       <option name="project" value="LOCAL" />
       <updated>1613332483699</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="modify existing models">
+      <created>1619102000466</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1619102000466</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add settings factory and dto">
+      <created>1619102052909</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1619102052909</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add settings serializer">
+      <created>1619102344841</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1619102344841</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add settings filter">
+      <created>1619102361892</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1619102361892</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add settings repository interface, settings manager">
+      <created>1619102383087</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1619102383087</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add abstract layer for repository">
+      <created>1619355178140</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1619355178140</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix update settings">
+      <created>1619355190517</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1619355190517</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fix settings dto validation">
+      <created>1619355210769</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1619355210769</updated>
+    </task>
+    <task id="LOCAL-00010" summary="add filter by settings">
+      <created>1619355235778</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1619355235778</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add settings api">
+      <created>1619355609255</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1619355609255</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,6 +351,17 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="modify existing models" />
+    <MESSAGE value="add settings factory" />
+    <MESSAGE value="add settings factory and dto" />
+    <MESSAGE value="add settings serializer" />
+    <MESSAGE value="add settings filter" />
+    <MESSAGE value="add settings repository interface, settings manager" />
+    <MESSAGE value="add abstract layer for repository" />
+    <MESSAGE value="fix update settings" />
+    <MESSAGE value="fix settings dto validation" />
+    <MESSAGE value="add filter by settings" />
+    <MESSAGE value="add settings api" />
+    <option name="LAST_COMMIT_MESSAGE" value="add settings api" />
   </component>
 </project>

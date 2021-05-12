@@ -8,6 +8,10 @@ security:
                 class: App\Entity\User\User
                 property: username
     firewalls:
+        refresh:
+            pattern: ^/api/token/refresh
+            stateless: true
+            anonymous: true
         login:
             pattern: ^/api/login
             stateless: true
@@ -30,7 +34,12 @@ security:
             anonymous: true
             provider: app_user_provider
     access_control:
+        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/security, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/security/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/security/verify, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/security/restore-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/stream, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/chat, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 

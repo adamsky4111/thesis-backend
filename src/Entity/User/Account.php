@@ -29,18 +29,19 @@ class Account extends AbstractEntity
     protected ?AccountInformation $accountInformation;
 
     /**
+     * @ORM\OneToOne(targetEntity=Media::class, cascade={"persist", "remove"})
+     */
+    protected ?Media $avatar = null;
+
+    /**
      * @ORM\OneToOne(targetEntity=Stream::class, cascade={"persist", "remove"})
      */
     protected ?Stream $actualStream;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Settings")
-     * @ORM\JoinTable(name="account_settings",
-     *      joinColumns={@ORM\JoinColumn(name="account_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="setting_id", referencedColumnName="id")}
-     *      )
+     * @ORM\OneToMany(targetEntity=Settings::class, mappedBy="account", cascade="persist")
      */
-    protected iterable $settings;
+    private iterable $settings;
 
     /**
      * @ORM\Column(type="json")
@@ -94,22 +95,38 @@ class Account extends AbstractEntity
     }
 
     /**
-     * @return iterable
+     * @return array
      */
-    public function getRoles(): iterable
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
     /**
-     * @param iterable $roles
+     * @param array $roles
      * @return Account
      */
-    public function setRoles(iterable $roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * @return Media|null
+     */
+    public function getAvatar(): ?Media
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param Media|null $avatar
+     */
+    public function setAvatar(?Media $avatar): void
+    {
+        $this->avatar = $avatar;
     }
 
     /**
@@ -129,7 +146,7 @@ class Account extends AbstractEntity
     }
 
     /**
-     * @return Collection|Settings[]
+     * @return Collection
      */
     public function getSettings(): Collection
     {
@@ -140,6 +157,7 @@ class Account extends AbstractEntity
     {
         if (!$this->settings->contains($settings)) {
             $this->settings[] = $settings;
+            $settings->setAccount($this);
         }
 
         return $this;
@@ -149,6 +167,7 @@ class Account extends AbstractEntity
     {
         if ($this->settings->contains($settings)) {
             $this->settings->removeElement($settings);
+            $settings->setAccount(null);
         }
 
         return $this;
@@ -159,6 +178,18 @@ class Account extends AbstractEntity
         $this->settings = new ArrayCollection();
 
         return $this;
+    }
+
+    public function getDefaultSettings(): Settings|null
+    {
+        /** @var Settings $setting */
+        foreach ($this->getSettings() as $setting) {
+            if ($setting->getIsDefault()) {
+                return $setting;
+            }
+        }
+
+        return null;
     }
 
     /**

@@ -3,17 +3,18 @@
 namespace App\Entity\Stream;
 
 use App\Entity\Base\AbstractEntity;
+use App\Entity\Base\EntityInterface;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\DeletedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\Entity\User\User;
-use App\Repository\Stream\MessageRepository;
+use App\Repository\Stream\Doctrine\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
-class Message extends AbstractEntity
+class Message extends AbstractEntity implements EntityInterface
 {
     use DeletedAtTrait,
         CreatedAtTrait,
