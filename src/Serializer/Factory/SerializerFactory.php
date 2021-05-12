@@ -2,7 +2,9 @@
 
 namespace App\Serializer\Factory;
 
+use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -27,6 +29,8 @@ class SerializerFactory
             )
         );
 
+        $extractor = new PropertyInfoExtractor([], [new PhpDocExtractor(), new ReflectionExtractor()]);
+
         $normalizers = [
             new DateTimeNormalizer(),
             new AnnotationReader(),
@@ -34,7 +38,7 @@ class SerializerFactory
                 $classMetadataFactory,
                 null,
                 null,
-                new ReflectionExtractor(),
+                $extractor,
                 null,
                 null,
                 $defaultContext

@@ -2,11 +2,12 @@
 
 namespace App\Repository\User;
 
-use App\Entity\User\Settings;
-use App\Service\Stream\Filter\FilterInterface;
+use App\Entity\User\Account;
+use App\Repository\RepositoryInterface;
+use App\Filter\FilterInterface;
 use JetBrains\PhpStorm\ArrayShape;
 
-interface SettingsRepositoryInterface
+interface SettingsRepositoryInterface extends RepositoryInterface
 {
     public function find(int $id);
     #[ArrayShape([
@@ -14,7 +15,5 @@ interface SettingsRepositoryInterface
         'total' => "int",
         'pages' => "int"
     ])]
-    public function findByFilter(FilterInterface $filter): array;
-    public function save(Settings $settings): Settings;
-    public function remove(Settings $settings): Settings;
+    public function findByFilter(FilterInterface $filter, Account $account): array;
 }

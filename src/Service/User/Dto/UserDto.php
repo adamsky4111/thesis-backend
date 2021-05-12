@@ -28,7 +28,7 @@ final class UserDto extends Dto
         /**
          * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_FORGOT_PASSWORD })
          * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
-         * @AppAssert\Email
+         * @AppAssert\Email(groups={ UserDto::GROUP_CREATE })
          * @AppAssert\UniqueProperty(propertyName="email", className=User::class, groups={ UserDto::GROUP_CREATE })
          */
         private string $email,

@@ -5,7 +5,7 @@ namespace App\Service\Stream\Context;
 use App\Entity\Stream\Channel;
 use App\Service\User\Context\AccountContextInterface;
 
-final class ChannelContext
+final class ChannelContext implements ChannelContextInterface
 {
     public function __construct(
         protected AccountContextInterface $account,

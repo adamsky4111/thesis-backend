@@ -5,7 +5,6 @@ namespace App\Service\Stream\Factory;
 use App\Dto\SettingsDto;
 use App\Entity\User\Account;
 use App\Entity\User\Settings;
-use Cassandra\Set;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class DefaultSettingsFactory implements SettingsFactoryInterface

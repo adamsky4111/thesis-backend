@@ -1,27 +1,21 @@
 <?php
 
-namespace App\Service\Stream\Filter;
+namespace App\Filter;
 
 
-final class SettingsFilter extends AbstractFilter implements FilterInterface
+final class SearchFilter extends AbstractFilter implements FilterInterface
 {
     // fields
-    const FIELD_IS_DEFAULT = 'isDefault';
     const FIELD_NAME = 'name';
-    const FIELD_AGE = 'ageAllowed';
 
     // types
     const TYPE_MAPPER = [
-        self::FIELD_AGE => self::TYPE_FROM_TO,
-        self::FIELD_IS_DEFAULT => self::TYPE_BOOLEAN,
         self::FIELD_NAME => self::TYPE_PHRASE,
     ];
 
     // allowed fields in search
     const ALLOWED_SEARCH_FIELDS = [
         self::FIELD_NAME,
-        self::FIELD_IS_DEFAULT,
-        self::FIELD_AGE,
     ];
 
     // allowed fields in sort

@@ -7,7 +7,7 @@ use App\Entity\User\Account;
 use App\Entity\User\Settings;
 use App\Repository\User\SettingsRepositoryInterface;
 use App\Service\Stream\Factory\SettingsFactoryInterface;
-use App\Service\Stream\Filter\SettingsFilter;
+use App\Filter\SettingsFilter;
 use App\Service\User\Context\AccountContextInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -27,7 +27,7 @@ final class SettingsManager implements SettingsManagerInterface
     ])]
     public function getSettingsData(SettingsFilter $filter): iterable
     {
-       return $this->settings->findByFilter($filter);
+       return $this->settings->findByFilter($filter, $this->account->getAccount());
     }
 
     public function get(int $id): SettingsDto

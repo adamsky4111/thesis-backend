@@ -2,7 +2,8 @@
 
 namespace App\Repository;
 
-use App\Service\Stream\Filter\FilterInterface;
+use App\Filter\FilterInterface;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use JetBrains\PhpStorm\ArrayShape;
@@ -15,16 +16,12 @@ abstract class AbstractDoctrineFilterRepository extends AbstractDoctrineReposito
     }
 
     #[ArrayShape([
-        'items' => "array",
+        'items' => "int|mixed|string",
         'total' => "int",
-        'pages' => "int"
+        'pages' => "float|int"
     ])]
-    public function findByFilter(FilterInterface $filter): array
+    protected function findByFilterWithQueryBuilder(FilterInterface $filter, QueryBuilder $qb, string $alias): array
     {
-        $alias = 'o';
-
-        $qb = $this->createQueryBuilder($alias);
-
         $counter = [
             FilterInterface::TYPE_PHRASE => 1,
             FilterInterface::TYPE_BOOLEAN => 1,
