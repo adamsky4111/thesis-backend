@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Base\EntityInterface;
 use App\Entity\User\Settings;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,23 +15,23 @@ abstract class AbstractDoctrineRepository extends ServiceEntityRepository
         parent::__construct($registry, $entityClass);
     }
 
-    public function save(Settings $settings, bool $flush = true): Settings
+    public function save(EntityInterface $entity, bool $flush = true): EntityInterface
     {
         $em = $this->getEntityManager();
-        $em->persist($settings);
+        $em->persist($entity);
         if ($flush) {
             $em->flush();
         }
-        return $settings;
+        return $entity;
     }
 
-    public function remove(Settings $settings, bool $flush = true): Settings
+    public function remove(EntityInterface $entity, bool $flush = true): EntityInterface
     {
         $em = $this->getEntityManager();
-        $em->remove($settings);
+        $em->remove($entity);
         if ($flush) {
             $em->flush();
         }
-        return $settings;
+        return $entity;
     }
 }

@@ -39,7 +39,7 @@ class Account extends AbstractEntity
     protected ?Stream $actualStream;
 
     /**
-     * @ORM\OneToMany(targetEntity=Settings::class, mappedBy="account")
+     * @ORM\OneToMany(targetEntity=Settings::class, mappedBy="account", cascade="persist")
      */
     private iterable $settings;
 
@@ -95,18 +95,18 @@ class Account extends AbstractEntity
     }
 
     /**
-     * @return iterable
+     * @return array
      */
-    public function getRoles(): iterable
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
     /**
-     * @param iterable $roles
+     * @param array $roles
      * @return Account
      */
-    public function setRoles(iterable $roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -178,6 +178,18 @@ class Account extends AbstractEntity
         $this->settings = new ArrayCollection();
 
         return $this;
+    }
+
+    public function getDefaultSettings(): Settings|null
+    {
+        /** @var Settings $setting */
+        foreach ($this->getSettings() as $setting) {
+            if ($setting->getIsDefault()) {
+                return $setting;
+            }
+        }
+
+        return null;
     }
 
     /**

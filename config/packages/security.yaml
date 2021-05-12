@@ -39,5 +39,7 @@ security:
         - { path: ^/api/security/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/security/verify, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/security/restore-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/stream, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/chat, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 

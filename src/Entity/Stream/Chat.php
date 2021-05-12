@@ -3,7 +3,8 @@
 namespace App\Entity\Stream;
 
 use App\Entity\Base\AbstractEntity;
-use App\Repository\Stream\ChatRepository;
+use App\Entity\Base\EntityInterface;
+use App\Repository\Stream\Doctrine\ChatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,10 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ChatRepository::class)
  */
-class Chat extends AbstractEntity
+class Chat extends AbstractEntity implements EntityInterface
 {
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="stream")
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="chat")
      */
     private iterable $messages;
 
@@ -24,7 +25,7 @@ class Chat extends AbstractEntity
     }
 
     /**
-     * @return Collection|Message[]
+     * @return Collection
      */
     public function getMessages(): Collection
     {

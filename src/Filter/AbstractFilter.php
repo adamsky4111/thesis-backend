@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Stream\Filter;
+namespace App\Filter;
 
 
 abstract class AbstractFilter implements FilterInterface

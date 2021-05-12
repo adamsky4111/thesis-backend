@@ -4,7 +4,7 @@ namespace App\Service\Stream\Manager;
 
 use App\Dto\SettingsDto;
 use App\Entity\User\Settings;
-use App\Service\Stream\Filter\SettingsFilter;
+use App\Filter\SettingsFilter;
 
 interface SettingsManagerInterface
 {

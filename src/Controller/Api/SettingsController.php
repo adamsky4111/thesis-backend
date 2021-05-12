@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use App\Dto\SettingsDto;
 use App\Serializer\SettingsSerializer;
-use App\Service\Stream\Filter\SettingsFilter;
+use App\Filter\SettingsFilter;
 use App\Service\Stream\Manager\SettingsManagerInterface;
 use App\Utils\RequestHelper;
 use App\Validator\ValidatorInterface;

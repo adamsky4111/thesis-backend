@@ -3,9 +3,10 @@
 namespace App\Entity\Stream;
 
 use App\Entity\Base\AbstractEntity;
+use App\Entity\Base\EntityInterface;
 use App\Entity\User\Account;
 use App\Entity\User\Settings;
-use App\Repository\Stream\ChannelRepository;
+use App\Repository\Stream\Doctrine\ChannelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ChannelRepository::class)
  */
-class Channel extends AbstractEntity
+class Channel extends AbstractEntity implements EntityInterface
 {
     /**
      * @ORM\Column(name="name", type="string", length=255)
@@ -46,7 +47,7 @@ class Channel extends AbstractEntity
     private Account $account;
 
     /**
-     * @ORM\Column(name="default", type="boolean", nullable=false)
+     * @ORM\Column(name="is_default", type="boolean", nullable=false)
      */
     private bool $default = false;
 

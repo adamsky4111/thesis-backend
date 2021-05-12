@@ -2,6 +2,7 @@
 
 namespace App\Dto;
 
+use App\Entity\Stream\Channel;
 use App\Entity\Stream\Stream;
 use App\Service\User\Dto\Dto;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -11,55 +12,64 @@ final class StreamDto extends Dto
 {
     public function __construct(
         /**
-         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
-         * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE  })
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_LIST, StreamDto::GROUP_SHOW })
+         */
+        private ?int $id = null,
+        /**
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_LIST, StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE, StreamDto::GROUP_SHOW })
+         * @Assert\NotBlank(groups={ StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE  })
          */
         private string $name,
         /**
-         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
-         * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE  })
-         */
-        protected bool $isDefault,
-        /**
-         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
-         * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE  })
-         */
-        private string $ageAllowed,
-        /**
-         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
-         * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE  })
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_LIST, StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE, StreamDto::GROUP_SHOW })
+         * @Assert\NotBlank(groups={ StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE  })
          */
         private string $description,
         /**
-         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
-         * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE, StreamDto::GROUP_SHOW })
+         * @Assert\Type(type="boolean", groups={ StreamDto::GROUP_CREATE })
          */
         private bool $startNow,
         /**
-         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
-         * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_LIST, StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE, StreamDto::GROUP_SHOW })
+         * @Assert\NotBlank(groups={ StreamDto::GROUP_CREATE })
          */
-        private \DateTimeInterface $startingAt,
+        private ?\DateTimeInterface $startingAt,
         /**
-         * @Groups({ UserDto::GROUP_DEFAULT, UserDto::GROUP_CREATE, UserDto::GROUP_UPDATE })
-         * @Assert\NotBlank(groups={ UserDto::GROUP_CREATE })
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE, StreamDto::GROUP_SHOW })
+         * @Assert\NotBlank(groups={ StreamDto::GROUP_CREATE })
          */
         private \DateTimeInterface $endingAt,
+        /**
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE, StreamDto::GROUP_SHOW })
+         */
+        private ?SettingsDto $settings = null,
+        /**
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE, StreamDto::GROUP_SHOW })
+         */
+        private ?ChannelDto $channel = null,
     ) {}
 
     public static function createFromObject(Stream $stream): self
     {
         $settings = $stream->getSettings();
+        $channel = $stream->getChannel();
 
         return new StreamDto(
+            $stream->getId(),
             $stream->getName(),
-            $settings->getIsDefault(),
-            $settings->getAgeAllowed(),
             $stream->getDescription(),
             $stream->getIsActive(),
             $stream->getStartingAt(),
             $stream->getEndingAt(),
+            SettingsDto::createFromObject($settings),
+            ChannelDto::createFromObject($channel),
         );
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**
@@ -68,22 +78,6 @@ final class StreamDto extends Dto
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDefault(): bool
-    {
-        return $this->isDefault;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAgeAllowed(): string
-    {
-        return $this->ageAllowed;
     }
 
     /**
@@ -116,5 +110,15 @@ final class StreamDto extends Dto
     public function getEndingAt(): \DateTimeInterface
     {
         return $this->endingAt;
+    }
+
+    public function getSettings(): ?SettingsDto
+    {
+        return $this->settings;
+    }
+
+    public function getChannel(): ?ChannelDto
+    {
+        return $this->channel;
     }
 }
