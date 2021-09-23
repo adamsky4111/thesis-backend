@@ -4,7 +4,7 @@ namespace App\Provider;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class EnvUrlProvider implements AppUrlProviderInterface
+class EnvUrlProvider implements AppUrlProviderInterface, StreamAppUrlProviderInterface
 {
     public function __construct(
         private ParameterBagInterface $params,
@@ -13,5 +13,10 @@ class EnvUrlProvider implements AppUrlProviderInterface
     public function getHostUrl(): string
     {
         return $this->params->get('app_url');
+    }
+
+    public function getStreamHostUrl(): string
+    {
+        return $this->params->get('stream_app_url');
     }
 }

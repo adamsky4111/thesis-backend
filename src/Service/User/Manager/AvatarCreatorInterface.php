@@ -9,5 +9,5 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 interface AvatarCreatorInterface
 {
     public function newAvatar(User $user, UploadedFile $file): Media;
-    public function resolveAvatarPath(string $path): string;
+    public function resolveAvatarPath(?string $path): string;
 }

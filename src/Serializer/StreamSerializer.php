@@ -5,6 +5,7 @@ namespace App\Serializer;
 use App\Dto\StreamDto;
 use App\Entity\Stream\Stream;
 use App\Serializer\Factory\SerializerFactory;
+use App\Service\Stream\Provider\StreamUrlProviderInterface;
 use App\Service\User\Manager\AvatarCreatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
@@ -18,14 +19,17 @@ class StreamSerializer implements ContextAwareNormalizerInterface, ContextAwareD
     protected Serializer $serializer;
     protected TranslatorInterface $translator;
     protected AvatarCreatorInterface $avatarCreator;
+    protected StreamUrlProviderInterface $provider;
 
     public function __construct(
         TranslatorInterface $translator,
         AvatarCreatorInterface $avatarCreator,
+        StreamUrlProviderInterface $provider,
     ) {
         $this->serializer = SerializerFactory::getObjectNormalizer();
         $this->translator = $translator;
         $this->avatarCreator = $avatarCreator;
+        $this->provider = $provider;
     }
 
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
@@ -62,8 +66,12 @@ class StreamSerializer implements ContextAwareNormalizerInterface, ContextAwareD
             AbstractObjectNormalizer::ENABLE_MAX_DEPTH => true,
         ];
 
-        return $this->serializer->normalize($object, null, [
+        $data = $this->serializer->normalize($object, null, [
             $settings
         ]);
+
+        $data['url'] = $this->provider->loadStreamUrl($object);
+
+        return $data;
     }
 }

@@ -34,8 +34,9 @@ final class DefaultAvatarCreator implements AvatarCreatorInterface
         return $media;
     }
 
-    public function resolveAvatarPath(string $path): string
+    public function resolveAvatarPath(?string $path): string
     {
+        $path = (string) $path;
         return $this->url->getHostUrl() . '/uploads/img/' . $path;
     }
 

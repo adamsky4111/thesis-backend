@@ -7,6 +7,8 @@ parameters:
     app_url: '%env(APP_URL)%'
     verify_url: '%env(VERIFY_URL)%'
     forgot_pass_url: '%env(FORGOT_PASS)%'
+    stream_secret: '%env(STREAM_SECRET)%'
+    stream_app_url: '%env(STREAM_APP_URL)%'
 
 services:
     # default configuration for services in *this* file
