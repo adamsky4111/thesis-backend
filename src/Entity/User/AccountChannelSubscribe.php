@@ -24,7 +24,7 @@ class AccountChannelSubscribe extends AbstractEntity
     /**
      * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="registration")
      */
-    protected Account $account;
+    protected ?Account $account;
 
     public function getChannel(): Channel
     {
@@ -36,12 +36,12 @@ class AccountChannelSubscribe extends AbstractEntity
         $this->channel = $channel;
     }
 
-    public function getAccount(): Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    public function setAccount(Account $account): void
+    public function setAccount(?Account $account): void
     {
         $this->account = $account;
     }
