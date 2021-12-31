@@ -39,7 +39,7 @@ class Account extends AbstractEntity
     protected ?Stream $actualStream;
 
     /**
-     * @ORM\OneToMany(targetEntity=Settings::class, mappedBy="account", cascade="persist")
+     * @ORM\OneToMany(targetEntity=Settings::class, mappedBy="account", cascade={"persist"})
      */
     private iterable $settings;
 
@@ -53,6 +53,11 @@ class Account extends AbstractEntity
      */
     private iterable $channels;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AccountChannelSubscribe::class, mappedBy="account")
+     */
+    private iterable $subscribes;
+
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -61,6 +66,7 @@ class Account extends AbstractEntity
         $this->setRoles([AccountRoleEnum::REGULAR_ACCOUNT]);
         $this->settings = new ArrayCollection();
         $this->channels = new ArrayCollection();
+        $this->subscribes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,7 +152,7 @@ class Account extends AbstractEntity
     }
 
     /**
-     * @return Collection
+     * @return Collection<Settings>
      */
     public function getSettings(): Collection
     {
@@ -173,9 +179,53 @@ class Account extends AbstractEntity
         return $this;
     }
 
-    public function clearSettings(): self
+    /**
+     * @return Collection<AccountChannelSubscribe>
+     */
+    public function getSubscribes(): iterable
     {
-        $this->settings = new ArrayCollection();
+        return $this->subscribes;
+    }
+
+    public function addSubscribe(AccountChannelSubscribe $subscribe): self
+    {
+        if (!$this->subscribes->contains($subscribe)) {
+            $this->subscribes[] = $subscribe;
+            $subscribe->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscribe(AccountChannelSubscribe $subscribe): self
+    {
+        if ($this->subscribes->contains($subscribe)) {
+            $this->subscribes->removeElement($subscribe);
+            $subscribe->setAccount(null);
+        }
+
+        return $this;
+    }
+
+    public function isChannelSubscribed(Channel $channel): bool
+    {
+        return (bool) $this->getSubscribeByChannel($channel);
+    }
+
+    public function getSubscribeByChannel(Channel $channel): ?AccountChannelSubscribe
+    {
+        foreach ($this->getSubscribes() as $subscribe) {
+            if ($channel === $subscribe->getChannel()) {
+                return $subscribe;
+            }
+        }
+
+        return null;
+    }
+
+    public function clearSubscribers(): self
+    {
+        $this->subscribes = new ArrayCollection();
 
         return $this;
     }

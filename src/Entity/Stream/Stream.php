@@ -25,6 +25,11 @@ class Stream extends AbstractEntity implements EntityInterface
     protected string $name;
 
     /**
+     * @ORM\Column(name="watchers_count", type="integer")
+     */
+    protected int $watchersCount;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Settings::class)
      */
     protected Settings $settings;
@@ -45,7 +50,7 @@ class Stream extends AbstractEntity implements EntityInterface
     protected string $description;
 
     /**
-     * @ORM\OneToOne(targetEntity=Chat::class, cascade="persist")
+     * @ORM\OneToOne(targetEntity=Chat::class, cascade={"persist"})
      * @ORM\JoinColumn(name="chat_id", referencedColumnName="id")
      */
     protected Chat $chat;
@@ -60,12 +65,39 @@ class Stream extends AbstractEntity implements EntityInterface
      */
     protected Channel $channel;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=StreamCategory::class, fetch="LAZY")
+     * @ORM\JoinTable(
+     *     name="stream_categories",
+     *     joinColumns={@ORM\JoinColumn(name="stream_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
+     * )
+     */
+    protected Collection $categories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=StreamTag::class, fetch="LAZY")
+     * @ORM\JoinTable(
+     *     name="events_tags",
+     *     joinColumns={@ORM\JoinColumn(name="stream_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     * )
+     */
+    protected Collection $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=StreamCategory::class)
+     */
+    protected ?StreamCategory $mainCategory = null;
+
     public function __construct(
         Settings $settings,
     ) {
         $this->settings = $settings;
         $this->chat = new Chat();
         $this->viewers = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,6 +115,16 @@ class Stream extends AbstractEntity implements EntityInterface
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getWatchersCount(): int
+    {
+        return $this->watchersCount;
+    }
+
+    public function setWatchersCount(int $watchersCount): void
+    {
+        $this->watchersCount = $watchersCount;
     }
 
     public function getSettings(): Settings
@@ -193,5 +235,70 @@ class Stream extends AbstractEntity implements EntityInterface
         }
 
         return $this;
+    }
+
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(StreamCategory $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function clearCategories(): self
+    {
+        if (!empty($this->categories)) {
+            $this->categories->clear();
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(StreamCategory $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+        }
+
+        return $this;
+    }
+
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(StreamTag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(StreamTag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+        }
+
+        return $this;
+    }
+
+    public function getMainCategory(): ?StreamCategory
+    {
+        return $this->mainCategory;
+    }
+
+    public function setMainCategory(?StreamCategory $mainCategory): void
+    {
+        $this->mainCategory = $mainCategory;
     }
 }

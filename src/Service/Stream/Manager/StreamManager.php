@@ -4,6 +4,7 @@ namespace App\Service\Stream\Manager;
 
 use App\Dto\StreamDto;
 use App\Entity\Stream\Stream;
+use App\Entity\User\Account;
 use App\Entity\User\User;
 use App\Event\EventDispatcherInterface;
 use App\Event\Stream\StreamEvent;
@@ -47,9 +48,11 @@ final class StreamManager implements StreamManagerInterface
 
         return StreamDto::createFromObject($stream);
     }
-    public function stopActualStream(): ?StreamDto
+    public function stopActualStream(?Account $account = null): ?StreamDto
     {
-        $account = $this->account->getAccount();
+        if (!$account) {
+            $account = $this->account->getAccount();
+        }
         $stream = $account->getActualStream();
         if ($stream instanceof Stream) {
             $stream->setIsActive(false);
@@ -61,11 +64,13 @@ final class StreamManager implements StreamManagerInterface
         return $stream ? StreamDto::createFromObject($stream) : null;
     }
 
-    public function startStream(Stream $stream)
+    public function startStream(Stream $stream, ?Account $account = null)
     {
-        $this->stopActualStream();
+        $this->stopActualStream($account);
         $stream->setIsActive(true);
-        $account = $this->account->getAccount();
+        if (!$account) {
+            $account = $this->account->getAccount();
+        }
         $account->setActualStream($stream);
         $this->dispatcher->dispatch((new StreamEvent($stream)), StreamEvent::STREAM_START);
         $this->streams->save($stream);

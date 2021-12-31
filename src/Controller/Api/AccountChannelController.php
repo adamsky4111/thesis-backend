@@ -3,10 +3,11 @@
 namespace App\Controller\Api;
 
 use App\Dto\ChannelDto;
+use App\Entity\Stream\Channel;
 use App\Filter\AccountChannelFilter;
 use App\Security\Voter\User\ChannelVoter;
 use App\Serializer\ChannelSerializer;
-use App\Serializer\UserSerializer;
+use App\Service\Channel\Subscriber\ChannelSubscriberInterface;
 use App\Service\Stream\Manager\ChannelManagerInterface;
 use App\Utils\RequestHelper;
 use App\Validator\ValidatorInterface;
@@ -25,6 +26,7 @@ class AccountChannelController extends AbstractController
         protected ChannelSerializer $serializer,
         protected ValidatorInterface $validator,
         protected ChannelManagerInterface $manager,
+        protected ChannelSubscriberInterface $subscriber,
     ) {}
 
 
@@ -114,6 +116,43 @@ class AccountChannelController extends AbstractController
         $this->denyAccessUnlessGranted(ChannelVoter::DELETE, $channel);
 
         $this->manager->delete($channel);
+
+        return $this->json(['channel' => $channel]);
+    }
+
+    /**
+     * @Route("/subscribed", name="subscribed", methods={"GET"})
+     */
+    public function favoriteAction(): JsonResponse
+    {
+        $channels = $this->subscriber->getSubscribed();
+        return $this->json(['items' => $channels]);
+    }
+
+    /**
+     * @Route("/subscribe/{id}", name="subscribe", methods={"PUT"})
+     */
+    public function subscribeAction(Channel $channel): JsonResponse
+    {
+        try {
+            $this->subscriber->subscribe($channel);
+        } catch (\Exception $exception) {
+            return $this->json(['errors' => [$exception->getMessage()]]);
+        }
+
+        return $this->json(['channel' => $channel]);
+    }
+
+    /**
+     * @Route("/unsubscribe/{id}", name="unsubscribe", methods={"PUT"})
+     */
+    public function unsubscribeAction(Channel $channel): JsonResponse
+    {
+        try {
+            $this->subscriber->unsubscribe($channel);
+        } catch (\Exception $exception) {
+            return $this->json(['errors' => [$exception->getMessage()]]);
+        }
 
         return $this->json(['channel' => $channel]);
     }
