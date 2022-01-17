@@ -126,7 +126,7 @@ class AccountChannelController extends AbstractController
     public function favoriteAction(): JsonResponse
     {
         $channels = $this->subscriber->getSubscribed();
-        return $this->json(['items' => $channels]);
+        return $this->json(['items' => $channels, 'pages' => 1, 'total' => \count($channels)]);
     }
 
     /**

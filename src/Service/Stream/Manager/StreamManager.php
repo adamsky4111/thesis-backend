@@ -64,8 +64,12 @@ final class StreamManager implements StreamManagerInterface
         return $stream ? StreamDto::createFromObject($stream) : null;
     }
 
-    public function startStream(Stream $stream, ?Account $account = null)
+    public function startStream(Stream|int $stream, ?Account $account = null)
     {
+        if (!$stream instanceof Stream) {
+            $stream = $this->streams->findById($stream);
+        }
+
         $this->stopActualStream($account);
         $stream->setIsActive(true);
         if (!$account) {

@@ -3,6 +3,7 @@
 namespace App\Service\Channel\Subscriber;
 
 use App\Entity\Stream\Channel;
+use App\Entity\User\AccountChannelSubscribe;
 
 interface ChannelSubscriberInterface
 {
@@ -10,7 +11,7 @@ interface ChannelSubscriberInterface
     public function unsubscribe(Channel $channel): bool;
 
     /**
-     * @return Channel[]
+     * @return AccountChannelSubscribe[]
      */
     public function getSubscribed(): array;
 }

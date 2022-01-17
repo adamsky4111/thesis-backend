@@ -29,6 +29,7 @@ final class DefaultStreamFactory implements StreamFactoryInterface
         $stream->setChannel($channel);
         $stream->setName($dto->getName());
         $stream->setDescription($dto->getDescription());
+        $stream->setWatchersCount(0);
         $stream->setStartingAt($dto->isStartNow() ? new \DateTime() : $dto->getStartingAt());
         if (!$dto->isStartNow()) {
             $this->schedule->schedule($stream);

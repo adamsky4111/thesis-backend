@@ -16,5 +16,5 @@ interface StreamManagerInterface
     public function registerStream(StreamDto $dto): StreamDto;
     public function stopActualStream(?Account $account = null): ?StreamDto;
     public function searchByFilter(FilterInterface $filter): array;
-    public function startStream(Stream $stream, ?Account $account = null);
+    public function startStream(Stream|int $stream, ?Account $account = null);
 }

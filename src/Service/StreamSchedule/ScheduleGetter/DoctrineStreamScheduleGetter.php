@@ -20,14 +20,15 @@ final class DoctrineStreamScheduleGetter implements StreamScheduleGetterInterfac
 
     public function getAllUserSchedule(User $user): array
     {
-        return $this->entityManager->getRepository(StreamSchedule::class)->findAll();
-        $repo = $this->entityManager->getRepository(StreamSchedule::class);
-        return $repo->createQueryBuilder('ss')
+        return $this->entityManager
+            ->getRepository(StreamSchedule::class)
+            ->createQueryBuilder('ss')
             ->leftJoin('ss.stream', 'stream')
             ->leftJoin('stream.channel', 'channel')
             ->leftJoin('channel.account', 'account')
             ->andWhere('account.id = :account')
             ->andWhere('ss.executed IS NULL')
+            ->orderBy('stream.startingAt', 'DESC')
             ->setParameter('account', $user->getAccount()->getId())
             ->getQuery()
             ->getResult()

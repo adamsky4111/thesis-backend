@@ -36,4 +36,9 @@ class StreamRepository extends AbstractDoctrineFilterRepository implements Strea
     {
         return $this->findOneBy(['id' => $id, 'isActive' => true]);
     }
+
+    public function findById(int $id): ?Stream
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
 }

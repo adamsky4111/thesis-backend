@@ -48,6 +48,11 @@ final class StreamDto extends Dto
          * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_CREATE, StreamDto::GROUP_UPDATE, StreamDto::GROUP_SHOW })
          */
         private ?ChannelDto $channel = null,
+
+        /**
+         * @Groups({ StreamDto::GROUP_DEFAULT, StreamDto::GROUP_SHOW })
+         */
+        private ?int $watchersCount = null,
     ) {}
 
     public static function createFromObject(Stream $stream): self
@@ -64,6 +69,7 @@ final class StreamDto extends Dto
             $stream->getEndingAt(),
             SettingsDto::createFromObject($settings),
             ChannelDto::createFromObject($channel),
+            $stream->getWatchersCount(),
         );
     }
 
@@ -120,5 +126,10 @@ final class StreamDto extends Dto
     public function getChannel(): ?ChannelDto
     {
         return $this->channel;
+    }
+
+    public function getWatchersCount(): ?int
+    {
+        return $this->watchersCount;
     }
 }

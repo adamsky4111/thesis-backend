@@ -2,8 +2,10 @@
 
 namespace App\Serializer;
 
+use App\Dto\AccountChannelSubscribeDto;
 use App\Dto\ChannelDto;
 use App\Entity\Stream\Channel;
+use App\Entity\User\AccountChannelSubscribe;
 use App\Serializer\Factory\SerializerFactory;
 use App\Service\User\Context\AccountContextInterface;
 use App\Service\User\Manager\AvatarCreatorInterface;
@@ -14,58 +16,52 @@ use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ChannelSerializer implements ContextAwareNormalizerInterface, ContextAwareDenormalizerInterface
+class AccountChannelSubscriberSerializer implements ContextAwareNormalizerInterface, ContextAwareDenormalizerInterface
 {
     protected Serializer $serializer;
-    protected TranslatorInterface $translator;
-    protected AvatarCreatorInterface $avatarCreator;
     protected AccountContextInterface $context;
 
     public function __construct(
-        TranslatorInterface $translator,
-        AvatarCreatorInterface $avatarCreator,
         AccountContextInterface $context
     ) {
         $this->serializer = SerializerFactory::getObjectNormalizer();
-        $this->translator = $translator;
-        $this->avatarCreator = $avatarCreator;
         $this->context = $context;
     }
 
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
-        return $type === ChannelDto::class;
+        return $type === AccountChannelSubscribeDto::class;
     }
 
     public function supportsNormalization($data, $format = null, array $context = []): bool
     {
-        return $data instanceof ChannelDto || $data instanceof Channel;
+        return $data instanceof AccountChannelSubscribeDto || $data instanceof AccountChannelSubscribe;
     }
 
-    public function denormalize($data, $type = null, $format = null, array $context = ['groups' => ChannelDto::GROUP_CREATE]): object|array
+    public function denormalize($data, $type = null, $format = null, array $context = ['groups' => AccountChannelSubscribeDto::GROUP_LIST]): object|array
     {
         return $this->serializer->deserialize(
             $data,
-            ChannelDto::class,
+            AccountChannelSubscribeDto::class,
             'json',
             $context
         );
     }
 
-    public function normalize($object, $format = null, array $context = ['groups' => ChannelDto::GROUP_LIST, ])
+    public function normalize($object, $format = null, array $context = ['groups' => AccountChannelSubscribeDto::GROUP_LIST, ])
     {
         $subscribed = false;
         $account = $this->context->getAccount();
 
-        if ($object instanceof Channel) {
+        if ($object instanceof AccountChannelSubscribe) {
             if ($account) {
-                $subscribed = $account->isChannelSubscribed($object);
+                $subscribed = $account->isChannelSubscribed($object->getChannel());
             }
-            $object = ChannelDto::createFromObject($object);
+            $object = AccountChannelSubscribeDto::createFromObject($object);
         }
 
         $context = [
-            'groups' => ChannelDto::GROUP_LIST,
+            'groups' => AccountChannelSubscribeDto::GROUP_LIST,
             AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
                 return $object->getId();
             },
@@ -76,7 +72,7 @@ class ChannelSerializer implements ContextAwareNormalizerInterface, ContextAware
         $data = $this->serializer->normalize($object, null, [
             $context
         ]);
-        $data['subscribed'] = $subscribed;
+        $data['channel']['subscribed'] = $subscribed;
 
         return $data;
     }

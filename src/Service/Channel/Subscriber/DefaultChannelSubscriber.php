@@ -29,6 +29,8 @@ final class DefaultChannelSubscriber implements ChannelSubscriberInterface
         $sub = new AccountChannelSubscribe();
         $sub->setAccount($account);
         $sub->setChannel($channel);
+        $sub->setCreatedAt(new \DateTime());
+        $sub->setUpdatedAt(new \DateTime());
         $this->manager->persist($sub);
 
         $account->addSubscribe($sub);
@@ -59,11 +61,6 @@ final class DefaultChannelSubscriber implements ChannelSubscriberInterface
         if (!$account) {
             throw new \Exception('Account not found');
         }
-        $channels = [];
-        foreach ($account->getSubscribes() as $item) {
-            $channels[] = $item->getChannel();
-        }
-
-        return $channels;
+        return $account->getSubscribes()->toArray();
     }
 }
