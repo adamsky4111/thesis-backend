@@ -5,6 +5,7 @@ namespace App\Entity\Stream;
 use App\Entity\Base\AbstractEntity;
 use App\Entity\Base\EntityInterface;
 use App\Entity\Traits\IsActiveTrait;
+use App\Entity\User\Media;
 use App\Repository\Stream\Doctrine\StreamRepository;
 use App\Entity\User\Settings;
 use DateTimeInterface;
@@ -33,6 +34,18 @@ class Stream extends AbstractEntity implements EntityInterface
      * @ORM\ManyToOne(targetEntity=Settings::class)
      */
     protected Settings $settings;
+
+    /**
+     * @var Collection<Media>
+    /**
+     * @ORM\ManyToMany(targetEntity=Media::class, fetch="LAZY")
+     * @ORM\JoinTable(
+     *     name="stream_images",
+     *     joinColumns={@ORM\JoinColumn(name="stream_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="image_id", referencedColumnName="id")}
+     * )
+     */
+    protected iterable $images;
 
     /**
      * @ORM\Column(name="starting_at", type="datetime")
@@ -78,7 +91,7 @@ class Stream extends AbstractEntity implements EntityInterface
     /**
      * @ORM\ManyToMany(targetEntity=StreamTag::class, fetch="LAZY")
      * @ORM\JoinTable(
-     *     name="events_tags",
+     *     name="stream_tags",
      *     joinColumns={@ORM\JoinColumn(name="stream_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
      * )
@@ -98,6 +111,7 @@ class Stream extends AbstractEntity implements EntityInterface
         $this->viewers = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -287,6 +301,29 @@ class Stream extends AbstractEntity implements EntityInterface
     {
         if ($this->tags->contains($tag)) {
             $this->tags->removeElement($tag);
+        }
+
+        return $this;
+    }
+
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Media $media): self
+    {
+        if (!$this->images->contains($media)) {
+            $this->images[] = $media;
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Media $media): self
+    {
+        if ($this->images->contains($media)) {
+            $this->images->removeElement($media);
         }
 
         return $this;
