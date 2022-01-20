@@ -4,8 +4,11 @@ namespace App\Controller\Api;
 
 use App\Dto\ChannelDto;
 use App\Dto\StreamDto;
+use App\Serializer\StreamScheduleSerializer;
 use App\Serializer\StreamSerializer;
 use App\Service\Stream\Manager\StreamManagerInterface;
+use App\Service\StreamSchedule\ScheduleGetter\StreamScheduleGetterInterface;
+use App\Service\User\Context\AccountContextInterface;
 use App\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,8 +23,11 @@ class AccountStreamController extends AbstractController
 {
     public function __construct(
         protected StreamSerializer $serializer,
+        protected StreamScheduleSerializer $scheduleSerializer,
         protected ValidatorInterface $validator,
         protected StreamManagerInterface $manager,
+        protected StreamScheduleGetterInterface $schedule,
+        protected AccountContextInterface $account,
     ) {}
 
 
@@ -31,6 +37,24 @@ class AccountStreamController extends AbstractController
     public function listAction(Request $request): JsonResponse
     {
 
+    }
+
+    /**
+     * @Route("/actual", name="actual", methods={"GET"})
+     */
+    public function actualStreamAction(Request $request): JsonResponse
+    {
+
+    }
+
+    /**
+     * @Route("/schedule", name="schedule", methods={"GET"})
+     */
+    public function scheduleStreamAction(Request $request): JsonResponse
+    {
+        $schedules = $this->schedule->getAllUserSchedule($this->account->getAccount()->getUser());
+
+        return $this->json(['items' => $schedules]);
     }
 
     /**

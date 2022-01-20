@@ -27,6 +27,7 @@ class StreamRepository extends AbstractDoctrineFilterRepository implements Strea
     {
         $alias = 's';
         $qb = $this->createQueryBuilder($alias);
+        $qb->andWhere('s.isActive = 1');
 
         return $this->findByFilterWithQueryBuilder($filter, $qb, $alias);
     }
@@ -34,5 +35,10 @@ class StreamRepository extends AbstractDoctrineFilterRepository implements Strea
     public function findActive(int $id): ?Stream
     {
         return $this->findOneBy(['id' => $id, 'isActive' => true]);
+    }
+
+    public function findById(int $id): ?Stream
+    {
+        return $this->findOneBy(['id' => $id]);
     }
 }

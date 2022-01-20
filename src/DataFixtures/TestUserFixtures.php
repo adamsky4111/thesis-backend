@@ -15,7 +15,7 @@ class TestUserFixtures extends Fixture implements OrderedFixtureInterface
     const USER_STREAM = 'test.user.regular';
 
     public function __construct(
-        protected UserFactoryInterface $factory,
+        protected UserFactoryInterface           $factory,
         protected SettingsFactoryInterface $settingsFactory,
     ) { }
 

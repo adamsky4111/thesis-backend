@@ -15,9 +15,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 final class SettingsManager implements SettingsManagerInterface
 {
     public function __construct(
-        protected SettingsRepositoryInterface $settings,
-        protected SettingsFactoryInterface $factory,
-        protected AccountContextInterface $account,
+        protected SettingsRepositoryInterface    $settings,
+        protected SettingsFactoryInterface       $factory,
+        protected AccountContextInterface        $account,
     ) {}
 
     #[ArrayShape([

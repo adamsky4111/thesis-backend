@@ -5,6 +5,7 @@ namespace App\Serializer;
 use App\Dto\ChannelDto;
 use App\Entity\Stream\Channel;
 use App\Serializer\Factory\SerializerFactory;
+use App\Service\User\Context\AccountContextInterface;
 use App\Service\User\Manager\AvatarCreatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
@@ -18,14 +19,17 @@ class ChannelSerializer implements ContextAwareNormalizerInterface, ContextAware
     protected Serializer $serializer;
     protected TranslatorInterface $translator;
     protected AvatarCreatorInterface $avatarCreator;
+    protected AccountContextInterface $context;
 
     public function __construct(
         TranslatorInterface $translator,
         AvatarCreatorInterface $avatarCreator,
+        AccountContextInterface $context
     ) {
         $this->serializer = SerializerFactory::getObjectNormalizer();
         $this->translator = $translator;
         $this->avatarCreator = $avatarCreator;
+        $this->context = $context;
     }
 
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
@@ -50,7 +54,13 @@ class ChannelSerializer implements ContextAwareNormalizerInterface, ContextAware
 
     public function normalize($object, $format = null, array $context = ['groups' => ChannelDto::GROUP_LIST, ])
     {
+        $subscribed = false;
+        $account = $this->context->getAccount();
+
         if ($object instanceof Channel) {
+            if ($account) {
+                $subscribed = $account->isChannelSubscribed($object);
+            }
             $object = ChannelDto::createFromObject($object);
         }
 
@@ -63,8 +73,11 @@ class ChannelSerializer implements ContextAwareNormalizerInterface, ContextAware
         ];
 
 
-        return $this->serializer->normalize($object, null, [
+        $data = $this->serializer->normalize($object, null, [
             $context
         ]);
+        $data['subscribed'] = $subscribed;
+
+        return $data;
     }
 }

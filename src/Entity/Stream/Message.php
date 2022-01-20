@@ -44,6 +44,8 @@ class Message extends AbstractEntity implements EntityInterface
         $this->user = $user;
         $this->chat = $chat;
         $this->content = $content;
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
     }
 
     public function getContent(): ?string

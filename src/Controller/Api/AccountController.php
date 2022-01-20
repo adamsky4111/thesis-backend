@@ -53,6 +53,33 @@ class AccountController extends AbstractController
     }
 
     /**
+     * @Route("/media", name="add_media", methods={"POST, GET"})
+     */
+    public function addMedia(Request $request): JsonResponse
+    {
+        try {
+            /** @var UserDto $user */
+            $file = $request->files->get('file');
+        } catch (\Exception) {
+            return $this->json(['errors' => 'wrong json format'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $loggedUser = $this->user->getUser();
+
+        if (!$user) {
+            throw $this->createNotFoundException();
+        }
+
+        if ($this->validator->validate($user, [UserDto::GROUP_UPDATE])) {
+            return $this->json(['errors' => $this->validator->getErrors()]);
+        }
+
+        $user = $this->manager->update($user, $loggedUser);
+
+        return $this->json(['user' => $user]);
+    }
+
+    /**
      * @Route("/avatar", name="avatar")
      */
     public function avatarAction(Request $request): JsonResponse

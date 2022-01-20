@@ -3,9 +3,11 @@
 namespace App\Serializer;
 
 use App\Dto\StreamDto;
+use App\Entity\Stream\Channel;
 use App\Entity\Stream\Stream;
 use App\Serializer\Factory\SerializerFactory;
 use App\Service\Stream\Provider\StreamUrlProviderInterface;
+use App\Service\User\Context\AccountContextInterface;
 use App\Service\User\Manager\AvatarCreatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
@@ -20,16 +22,19 @@ class StreamSerializer implements ContextAwareNormalizerInterface, ContextAwareD
     protected TranslatorInterface $translator;
     protected AvatarCreatorInterface $avatarCreator;
     protected StreamUrlProviderInterface $provider;
+    protected AccountContextInterface $context;
 
     public function __construct(
         TranslatorInterface $translator,
         AvatarCreatorInterface $avatarCreator,
         StreamUrlProviderInterface $provider,
+        AccountContextInterface $context,
     ) {
         $this->serializer = SerializerFactory::getObjectNormalizer();
         $this->translator = $translator;
         $this->avatarCreator = $avatarCreator;
         $this->provider = $provider;
+        $this->context = $context;
     }
 
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
@@ -54,7 +59,15 @@ class StreamSerializer implements ContextAwareNormalizerInterface, ContextAwareD
 
     public function normalize($object, $format = null, array $context = ['groups' => StreamDto::GROUP_LIST, ])
     {
+        $subscribed = false;
+        $account = $this->context->getAccount();
+
         if ($object instanceof Stream) {
+            if (($channel = $object->getChannel()) instanceof Channel) {
+                if ($account) {
+                    $subscribed = $account->isChannelSubscribed($channel);
+                }
+            }
             $object = StreamDto::createFromObject($object);
         }
 
@@ -71,6 +84,7 @@ class StreamSerializer implements ContextAwareNormalizerInterface, ContextAwareD
         ]);
 
         $data['url'] = $this->provider->loadStreamUrl($object);
+        $data['channel']['subscribed'] = $subscribed;
 
         return $data;
     }

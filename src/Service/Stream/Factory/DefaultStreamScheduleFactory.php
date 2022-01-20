@@ -7,7 +7,7 @@ use App\Entity\User\Account;
 use App\Entity\User\Settings;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class DefaultSettingsFactory implements SettingsFactoryInterface
+final class DefaultStreamScheduleFactory implements SettingsFactoryInterface
 {
     public function __construct(
         protected EntityManagerInterface $em,
